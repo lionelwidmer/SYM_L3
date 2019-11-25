@@ -6,4 +6,86 @@
     android:layout_height="match_parent"
     tools:context=".NfcActivity">
 
+    <ImageView
+        android:id="@+id/nfcLogo"
+        android:layout_width="195dp"
+        android:layout_height="173dp"
+        android:layout_marginStart="108dp"
+        android:layout_marginTop="164dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_nfc_heig" />
+
+    <TextView
+        android:id="@+id/NFCViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:text="Authentification par NFC"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtInstructionsMdp"
+        android:layout_width="387dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="44dp"
+        android:text="Puis merci de taper votre mot de passe numérique"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nfcLogo" />
+
+    <TextView
+        android:id="@+id/txtInstructionsNFC"
+        android:layout_width="387dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:text="Veuillez scanner votre tag NFC pour commencer"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/nfcLogo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/NFCViewTitle"
+        app:layout_constraintVertical_bias="0.086"
+        tools:visibility="visible" />
+
+    <EditText
+        android:id="@+id/pwdField"
+        android:layout_width="261dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="75dp"
+        android:layout_marginTop="438dp"
+        android:ems="10"
+        android:hint="* * * *"
+        android:inputType="numberPassword"
+        android:maxLength="6"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnAuth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:background="#1E88E5"
+        android:onClick="fullAuthentication"
+        android:paddingStart="10sp"
+        android:paddingEnd="10sp"
+        android:text="authentifier"
+        android:textColor="#FFFFFF"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pwdField"
+        tools:visibility="gone" />
 </androidx.constraintlayout.widget.ConstraintLayout>
