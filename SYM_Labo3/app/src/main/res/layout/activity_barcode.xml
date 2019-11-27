@@ -6,4 +6,37 @@
     android:layout_height="match_parent"
     tools:context="ch.heig.sym_labo3.BarcodeActivity">
 
+    <TextView
+        android:id="@+id/lblCode"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.521"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.786" />
+
+    <view
+        android:id="@+id/view"
+        class="com.journeyapps.barcodescanner.DecoratedBarcodeView"
+        android:layout_width="271dp"
+        android:layout_height="242dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgPreview"
+        android:layout_width="163dp"
+        android:layout_height="149dp"
+        android:layout_marginTop="308dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@color/zxing_custom_result_view" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -66,6 +66,7 @@
         android:layout_width="261dp"
         android:layout_height="49dp"
         android:layout_marginStart="452dp"
+        android:layout_marginBottom="129dp"
         android:ems="10"
         android:hint="* * * *"
         android:inputType="numberPassword"
@@ -73,16 +74,17 @@
         android:textAlignment="center"
         android:textSize="24sp"
         android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="282dp"
         tools:visibility="gone" />
 
     <Button
         android:id="@+id/btnAuth"
         android:layout_width="182dp"
         android:layout_height="45dp"
+        android:layout_marginBottom="61dp"
         android:background="#1E88E5"
         android:onClick="fullAuthentication"
         android:paddingStart="10sp"
@@ -90,10 +92,10 @@
         android:text="authentifier"
         android:textColor="#FFFFFF"
         android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.967"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="350dp"
         tools:visibility="gone" />
 
     <EditText
