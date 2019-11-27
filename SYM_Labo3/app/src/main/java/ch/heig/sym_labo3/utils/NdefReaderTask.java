@@ -9,6 +9,7 @@ import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.function.Function;
 
 import ch.heig.sym_labo3.NfcActivity;
 
@@ -18,9 +19,16 @@ import ch.heig.sym_labo3.NfcActivity;
  * @author Ralf Wondratschek
  *
  */
+
 public class NdefReaderTask extends AsyncTask<Tag, Void, String> {
     // Instance variables
     private static final String TAG = NfcActivity.class.getSimpleName();
+    NFCFunction toExecuteOnPost;
+
+    public NdefReaderTask(NFCFunction f){
+        super();
+        toExecuteOnPost = f;
+    }
 
     @Override
     protected String doInBackground(Tag... params) {
@@ -78,7 +86,7 @@ public class NdefReaderTask extends AsyncTask<Tag, Void, String> {
     protected void onPostExecute(String result) {
         if (result != null) {
             System.out.println("TOTO : " + result);
-            //mTextView.setText("Read content: " + result);
+            this.toExecuteOnPost.method(result);
         }
     }
 }

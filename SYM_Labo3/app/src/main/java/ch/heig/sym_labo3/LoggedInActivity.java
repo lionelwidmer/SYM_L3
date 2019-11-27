@@ -16,10 +16,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
@@ -27,24 +23,22 @@ import java.util.Arrays;
 
 import ch.heig.sym_labo3.utils.NdefReaderTask;
 
-public class NfcActivity extends AppCompatActivity {
-    // Instance variables
+public class LoggedInActivity extends AppCompatActivity {
+
+    private static  final int AUTHENTICATE_MAX = 10, AUTHENTICATE_MED = 30, AUTHENTICATE_MIN = 60;
     private static final String TAG = NfcActivity.class.getSimpleName();
     private static final String MIME_TEXT_PLAIN = "text/plain";
-    private ImageView nfcLogo;
-    private TextView lblPassword;
-    private EditText pwdField, emailField;
-    private Button authBtn;
+    private Long lastTimeStamp;
     private NfcAdapter mNfcAdapter;
     private boolean NFCTagValidity;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nfc);
+        setContentView(R.layout.activity_logged_in);
+        refreshLogin();
+
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        this.initFields();
         if (mNfcAdapter == null) {
             // Stop here, we definitely need NFC
             Toast.makeText(this, "This device doesn't support NFC.", Toast.LENGTH_LONG).show();
@@ -61,18 +55,15 @@ public class NfcActivity extends AppCompatActivity {
 
         handleIntent(getIntent());
     }
-
     @Override
     protected void onResume() {
         super.onResume();
-        this.initFields();
-        this.logout();
         /**
          * It's important, that the activity is in the foreground (resumed). Otherwise
          * an IllegalStateException is thrown.
          */
         setupForegroundDispatch(this, mNfcAdapter);
-}
+    }
 
     @Override
     protected void onPause() {
@@ -89,53 +80,40 @@ public class NfcActivity extends AppCompatActivity {
         handleIntent(intent);
     }
 
-    public void fullAuthentication(View view){
-        if(this.NFCTagValidity){
-            String  code = this.pwdField.getText().toString(),
-                    email = this.emailField.getText().toString();
-            if(email.equals("a@a.a") && code.equals("426789")){
-                Toast.makeText(this, "Vous voilà authentifié", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(this, LoggedInActivity.class);
-                startActivity(intent);
-            } else {
-                this.logout();
-                Toast.makeText(this, "Erreur dans l'adresse ou le mot de passe ", Toast.LENGTH_LONG).show();
-            }
+    private void refreshLogin(){
+        this.lastTimeStamp = System.currentTimeMillis()/1000;
+    }
+
+    public void testMinimumSec(View view){
+        if( AUTHENTICATE_MIN + lastTimeStamp  >= System.currentTimeMillis()/1000){
+            Toast.makeText(this, "Runned minimum security task", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(this, "Erreur : il faut d'abord valider le tag ", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Access denied", Toast.LENGTH_LONG).show();
         }
     }
 
-    private void initFields(){
-        this.nfcLogo = findViewById(R.id.nfcLogo);
-        this.lblPassword= findViewById(R.id.txtInstructionsMdp);
-        this.pwdField   = findViewById(R.id.pwdField);
-        this.emailField = findViewById(R.id.emailField);
-        this.authBtn    = findViewById(R.id.btnAuth);
+    public void testMediumSec(View view){
+        if( lastTimeStamp + AUTHENTICATE_MED >= System.currentTimeMillis()/1000){
+            Toast.makeText(this, "Runned medium security task", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Access denied", Toast.LENGTH_LONG).show();
+        }
     }
 
-    public void logout(){
-        this.nfcLogo.setColorFilter(null);
-        this.emailField.setVisibility(View.GONE);
-        this.pwdField.setVisibility(View.GONE);
-        this.lblPassword.setVisibility(View.GONE);
-        this.authBtn.setVisibility(View.GONE);
-        this.pwdField.setText("");
-        NFCTagValidity = false;
+    public void testMaximumSec(View view){
+        if( lastTimeStamp + AUTHENTICATE_MAX >= System.currentTimeMillis()/1000){
+            Toast.makeText(this, "Runned maximum security task", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Access denied", Toast.LENGTH_LONG).show();
+        }
     }
 
     void readTag(String msg) {
         if(msg.equals("1^b\"`0]|^!H~<C#;|Ri&.)oB &.tXOAm")){
             //tag auth ok!
-            this.nfcLogo.setColorFilter(Color.parseColor("#689F38"));
-            Toast.makeText(this, "Tag NFC Validé !", Toast.LENGTH_LONG).show();
-            this.emailField.setVisibility(View.VISIBLE);
-            this.pwdField.setVisibility(View.VISIBLE);
-            this.lblPassword.setVisibility(View.VISIBLE);
-            this.authBtn.setVisibility(View.VISIBLE);
-            NFCTagValidity = true;
+            this.refreshLogin();
+            Toast.makeText(this, "Refreshed security", Toast.LENGTH_LONG).show();
         } else {
-            this.nfcLogo.setColorFilter(Color.parseColor("#B71C1C"));
             Toast.makeText(this, "Wrong tag ", Toast.LENGTH_LONG).show();
         }
 
